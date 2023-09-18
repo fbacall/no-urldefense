@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+  "version": "1.0",
+  "author": "Finn Bacall",
+  "name": "Remove urldefense.com wrapping from links",
+  "description": "Remove urldefense.com wrapping from links",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "noUrlDefense@finn.codes",
+      "strict_min_version": "102.11.0"
+    }
+  },
+  "permissions": [
+    "messagesRead",
+    "messagesModify",
+    "compose"
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  }
+}
+
+
