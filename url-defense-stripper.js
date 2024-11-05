@@ -12,13 +12,13 @@ const util = {
 
     replaceSubs: function (url, key) {
         let subs = this.decode(key).split("");
-        const iter = url.matchAll(/\*\*?([-_A-Za-z0-9])?/g);
+        const iter = url.matchAll(/\*(\*([-_A-Za-z0-9]))?/g);
         let drift = 0;
         let value
         while (value = iter.next().value) {
             const startIndex = value.index + drift;
             const endIndex = value.index + value[0].length + drift;
-            const length = value[1] ? util.length(value[1]) : 1;
+            const length = value[1] ? util.length(value[2]) : 1;
             const replacement = subs.splice(0, length).join("");
 
             url = url.slice(0, startIndex) + replacement + url.slice(endIndex, url.length);
@@ -32,7 +32,7 @@ const util = {
 const rewrite = async () => {
     const urlDefenseMatch = "https://urldefense.com/v./__([^\\s]+)__;([^!]*)!!.+";
     const hrefMatch = new RegExp(urlDefenseMatch);
-    const textMatch = new RegExp(urlDefenseMatch + "\\$(</a>)?( ?\\[.+\\])?", "g");
+    const textMatch = new RegExp(urlDefenseMatch + "\\$(</a>)?( ?\\[[-a-zA-Z0-9\\.\\[\\]]+\\])?", "g");
 
     // Replace HTML links
     const links = document.getElementsByTagName("a");
@@ -45,7 +45,7 @@ const rewrite = async () => {
             }
 
             // Re-write link's inner contents to remove square bracket bit ("blabla [some.domain.com]")
-            const innerMatches = link.innerHTML.match(/(.*) \[.+\]/);
+            const innerMatches = link.innerHTML.match(/(.*) \[[-a-zA-Z0-9\.]+\]$/);
             if (innerMatches && innerMatches.length) {
                 link.innerHTML = innerMatches[1];
             }
