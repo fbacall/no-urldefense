@@ -45,7 +45,7 @@ const rewrite = async () => {
             }
 
             // Re-write link's inner contents to remove square bracket bit ("blabla [some.domain.com]")
-            const innerMatches = link.innerHTML.match(/(.*) \[[-a-zA-Z0-9\.]+\]$/);
+            const innerMatches = link.innerHTML.match(/^(.*)\[[-a-zA-Z0-9\.]+\.[a-zA-Z0-9]+\]$/s);
             if (innerMatches && innerMatches.length) {
                 link.innerHTML = innerMatches[1];
             }
